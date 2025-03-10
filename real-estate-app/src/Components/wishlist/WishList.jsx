@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import toast from "react-hot-toast"; // Import react-hot-toast
+import { toast } from "sonner";
 import { addToWishlist, fetchWishlist, removeFromWishlist } from "../../services/wishlist";
 import LoadingSkeleton from "./LoadingSkeleton";
 import ZeroWishList from "./ZeroWishList";

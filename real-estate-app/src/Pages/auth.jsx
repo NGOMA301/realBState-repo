@@ -2,7 +2,6 @@ import { Eye, EyeOff, Mail, User, Phone, MapPin } from "lucide-react";
 import { useState } from "react";
 import { loginUser, registerUser } from "../services/api";
 import { useNavigate } from "react-router-dom";
-import { Navbar } from "../Components/NavBar";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);

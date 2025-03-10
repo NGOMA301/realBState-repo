@@ -23,7 +23,6 @@ export const createProduct = async (req, res) => {
       beds,
       baths,
     } = req.body;
-    console.log(req.body);
 
     if (!req.files || !req.files.displayImage || !req.files.images) {
       return res
@@ -54,11 +53,25 @@ export const createProduct = async (req, res) => {
       location,
       beds: beds ? Number(beds) : undefined,
       baths: baths ? Number(baths) : undefined,
+      createdBy: req.userId, // Added user reference
     });
 
     await product.save();
-    res.status(201).json({ message: "Product created successfully", product });
+
+    // Populate creator info in response
+    const populatedProduct = await Product.findById(product._id).populate(
+      "createdBy",
+      "name email"
+    );
+
+    res
+      .status(201)
+      .json({
+        message: "Product created successfully",
+        product: populatedProduct,
+      });
   } catch (error) {
+    console.log(error)
     res
       .status(500)
       .json({ message: "An error occurred", error: error.message });
@@ -123,78 +136,6 @@ export const getAllProducts = async (req, res) => {
     });
   }
 };
-
-//update a product
-// export const updateProduct = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const {
-//       title,
-//       description,
-//       price,
-//       type,
-//       category,
-//       status,
-//       location,
-//       beds,
-//       baths,
-//     } = req.body;
-
-//     // Check if the product exists
-//     const existingProduct = await Product.findById(id);
-//     if (!existingProduct) {
-//       return res.status(404).json({ message: "Product not found" });
-//     }
-
-//     // Generate slug only if the title is updated
-//     const slug = title
-//       ? title.toLowerCase().replace(/\s+/g, "-")
-//       : existingProduct.slug;
-
-//     // Update file paths if new files are uploaded
-//     let displayImage = existingProduct.displayImage;
-//     if (req.files && req.files.displayImage) {
-//       displayImage = `/uploads/display-image/${req.files.displayImage[0].filename}`;
-//     }
-
-//     let images = existingProduct.image;
-//     if (req.files && req.files.images) {
-//       images = req.files.images.map(
-//         (file) => `/uploads/product-image/${file.filename}`
-//       );
-//     }
-
-//     // Update product fields
-//     const updatedProduct = await Product.findByIdAndUpdate(
-//       id,
-//       {
-//         title: title || existingProduct.title,
-//         slug,
-//         description: description || existingProduct.description,
-//         price: price || existingProduct.price,
-//         type: type || existingProduct.type,
-//         category: category ? category.split(",") : existingProduct.category,
-//         status: status || existingProduct.status,
-//         location: location || existingProduct.location,
-//         beds: beds ? Number(beds) : existingProduct.beds,
-//         baths: baths ? Number(baths) : existingProduct.baths,
-//         displayImage,
-//         image: images,
-//       },
-//       { new: true, runValidators: true }
-//     );
-
-//     res.status(200).json({
-//       message: "Product updated successfully",
-//       product: updatedProduct,
-//     });
-//   } catch (error) {
-//     console.error("Error updating product:", error);
-//     res
-//       .status(500)
-//       .json({ message: "An error occurred", error: error.message });
-//   }
-// };
 
 export const updateProduct = async (req, res) => {
   try {
@@ -352,6 +293,26 @@ export const getProductBySlug = async (req, res) => {
       .json({ message: "An error occurred", error: error.message });
   }
 };
+// Get product details by id
+export const getProductByDId = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the product by slug
+    const product = await Product.findById(id);
+
+    // Check if product exists
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.status(200).json({ product });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "An error occurred", error: error.message });
+  }
+};
 
 //add to wishlist
 export const addToWishlist = async (req, res) => {
@@ -416,7 +377,6 @@ export const removeFromWishlist = async (req, res) => {
       message: "Product removed from wishlist",
       userWishlist: user.wishlist,
     });
-    
   } catch (error) {
     res
       .status(500)

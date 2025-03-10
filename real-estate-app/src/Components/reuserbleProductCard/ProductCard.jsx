@@ -1,7 +1,7 @@
 import { Heart, Share2, MapPin, Bath, Bed } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import toast from "react-hot-toast"; // Import react-hot-toast
+import { toast } from "sonner";
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 

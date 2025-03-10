@@ -31,7 +31,7 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    
+
     image: {
       type: [String],
       required: true,
@@ -49,6 +49,17 @@ const productSchema = new mongoose.Schema(
     },
     baths: {
       type: Number,
+    },
+    //for chat functionality
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    // Add more fields if needed for chat system
+    lastMessageAt: {
+      type: Date,
+      default: null,
     },
   },
   {

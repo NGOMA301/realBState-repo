@@ -14,8 +14,9 @@ import {
   addToWishlist,
   removeFromWishlist,
   getAllWishlist,
+  getProductByDId,
 } from "../controlers/product.controler.js";
-import { authenticate, authenticateToken } from "../middlewares/auth.middleware.js";
+import { authenticate, authenticateAdminToken } from "../middlewares/auth.middleware.js";
 
 export const productRouter = express.Router();
 
@@ -51,6 +52,7 @@ const upload = multer({ storage });
 // Product creation route
 productRouter.post(
   "/new",
+  authenticateAdminToken,
   upload.fields([
     { name: "displayImage", maxCount: 1 },
     { name: "images", maxCount: 10 },
@@ -76,6 +78,7 @@ productRouter.get("/all", getAllProducts);
 productRouter.get("/single/:id", getProductById);
 productRouter.delete("/delete/:id", deleteProduct);
 productRouter.get("/details/:slug", getProductBySlug);
+productRouter.get("/details/i/:id", getProductByDId);
 
 //wishlist
 

@@ -12,6 +12,19 @@ const userSchema = new mongoose.Schema(
     },
     wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
     profileImage: String,
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
+    lastAccessedAt: Date,
+    active: {
+      type: Boolean,
+      default: true,
+    },
+    twoFactorCode: String,
+    twoFactorExpires: Date,
+    is2FAVerified: { type: Boolean, default: false },
   },
   {
     timestamps: true,

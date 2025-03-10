@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from "sonner";
 import Home from "./Pages/Home/Home";
 import AllProducts from "./Pages/Home/AllProducts";
 import ContactPage from "./Pages/Home/Contact Us";
@@ -17,28 +17,14 @@ import BuyResidential from "./Pages/Home/BuyResidential";
 import WishList from "./Components/wishlist/WishList";
 import { Navbar } from "./Components/NavBar";
 import ProfilePage from "./Pages/userPages/ProfilePage";
+import ChatInterface from "./Components/ChatInterface";
+import ChatPage from "./Pages/ChatPage";
 
 function App() {
   return (
     <BrowserRouter>
     <Navbar/>
-    <Toaster
-          position="top-center"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: '#363636',
-              color: '#fff',
-            },
-            success: {
-              duration: 3000,
-              theme: {
-                primary: 'green',
-                secondary: 'black',
-              },
-            },
-          }}
-        />
+     <Toaster/>   
       <Routes>
         <Route path="/" element={<Home />} />
         {/* rental pages */}
@@ -60,6 +46,8 @@ function App() {
         <Route path="/Sell" element={<Sell />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/auth" element={<Auth />} />
+        {/*chat page */}
+        <Route path="/chat/:conversationId" element={<ChatPage />} />
       </Routes>
     </BrowserRouter>
   );

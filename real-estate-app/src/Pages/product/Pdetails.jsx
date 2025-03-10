@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { Heart, Share2 } from "lucide-react";
 import { ImageGallery } from "../../Components/product-details/image-gallery";
 import { PropertyFeatures } from "../../Components/product-details/property-features";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import { useAuth } from "../../hooks/useAuth";
 
 const ProductDetails = () => {
@@ -15,6 +15,8 @@ const ProductDetails = () => {
   const { user, fetchUser } = useAuth();
   const [wishlist, setWishlist] = useState([]);
   const [isWishlistLoading, setIsWishlistLoading] = useState(false);
+  const navigate = useNavigate();
+  const API_URL = "http://localhost:5000";
 
   // Fetch user's wishlist when component mounts
   useEffect(() => {
@@ -114,6 +116,23 @@ const ProductDetails = () => {
       });
     } catch (error) {
       console.log("Error sharing:", error);
+    }
+  };
+
+  const handleContactAgent = async () => {
+    try {
+      const response = await axios.post(
+        `${API_URL}/api/chat/conversation`,
+        {
+          recipientId: product.createdBy,
+          productId: product._id,
+        },
+        { withCredentials: true }
+      );
+
+      navigate(`/chat/${response.data._id}`, { state: { product } });
+    } catch (error) {
+      console.error("Error starting conversation:", error);
     }
   };
 
@@ -246,7 +265,10 @@ const ProductDetails = () => {
 
               {/* Contact Button */}
               <div className="pt-6">
-                <button className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                <button
+                  onClick={handleContactAgent}
+                  className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+                >
                   Contact Agent
                 </button>
               </div>

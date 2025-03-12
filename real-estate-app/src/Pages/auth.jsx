@@ -1,7 +1,7 @@
 import { Eye, EyeOff, Mail, User, Phone, MapPin } from "lucide-react";
 import { useState } from "react";
 import { loginUser, registerUser } from "../services/api";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -9,7 +9,7 @@ const Auth = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState(""); // 'success' or 'error'
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

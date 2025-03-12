@@ -7,10 +7,7 @@ const UpdateProduct = () => {
   const { id } = useParams();
   
   return (
-    <div className="flex h-screen bg-neutral-50 overflow-hidden">
-      <Sidebar />
-      
-      <div className="flex-1 overflow-y-auto">
+    <div>
         <div className="p-6 md:p-10">
           <h1 className="text-3xl font-bold text-gray-900 mb-6">Update Product</h1>
           
@@ -18,7 +15,6 @@ const UpdateProduct = () => {
           <UpdateProductForm id={id || ''} />
         </div>
       </div>
-    </div>
   );
 };
 

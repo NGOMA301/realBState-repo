@@ -72,29 +72,31 @@ const ChatPage = () => {
     let tempMessage;
 
     try {
-      tempMessage = {
-        ...messageToSend,
-        _id: Date.now().toString(),
-        sender: { _id: user.id },
-        createdAt: new Date(),
-        readBy: [user.id],
-      };
+      // tempMessage = {
+      //   ...messageToSend,
+      //   _id: Date.now().toString(),
+      //   sender: { _id: user.id },
+      //   createdAt: new Date(),
+      //   readBy: [user.id],
+      // };
 
-      setMessages((prev) => sortMessages([...prev, tempMessage]));
+      //setMessages((prev) => sortMessages([...prev, tempMessage]));
       setNewMessage("");
       scrollToBottom();
 
-      const savedMessage = await sendMessage(messageToSend);
+      await sendMessage(messageToSend);
 
-      setMessages((prev) =>
-        sortMessages(
-          prev.map((msg) =>
-            msg._id === tempMessage._id ? savedMessage : msg
-          )
-        )
-      );
+     //setMessages((prev) => [...prev, savedMessage]);
+      // setMessages((prev) =>
+      //   sortMessages(
+      //     prev.map((msg) =>
+      //       msg._id === tempMessage._id ? savedMessage : msg
+      //     )
+      //   )
+      // );
 
-      socket.current.emit("sendMessage", savedMessage);
+      //socket.current.emit("sendMessage", savedMessage);
+
     } catch (error) {
       console.error("Error sending message:", error);
       setMessages((prev) =>

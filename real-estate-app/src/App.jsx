@@ -19,6 +19,7 @@ import { Navbar } from "./Components/NavBar";
 import ProfilePage from "./Pages/userPages/ProfilePage";
 import ChatInterface from "./Components/ChatInterface";
 import ChatPage from "./Pages/ChatPage";
+import ClientChatPage from "./Pages/ClientChatPage";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
         <Route path="/Contact Us" element={<ContactPage />} />
         <Route path="/Sell" element={<Sell />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/client/deals" element={<ClientChatPage />} />
         <Route path="/auth" element={<Auth />} />
         {/*chat page */}
         <Route path="/chat/:conversationId" element={<ChatPage />} />

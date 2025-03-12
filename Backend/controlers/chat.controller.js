@@ -34,7 +34,6 @@ export const startConversation = async (req, res) => {
 export const sendMessage = async (req, res) => {
   try {
     const { conversationId, text, attachments } = req.body;
-    console.log(req.body)
     const senderId = req.userId;
     const message = new Message({
       conversationId,
@@ -130,6 +129,17 @@ export const markAsRead = async (req, res) => {
         $push: { readBy: userId },
       }
     );
+
+    // Emit the new message using socket.io.
+    const io = req.app.get("io");
+    if (io) {
+      // Using the conversationId as the room name.
+      io.to(conversationId.toString()).emit("messages-read", { 
+        conversationId,
+        userId 
+      } );
+    }
+    
     res.status(200).json({ message: "Messages marked as read" });
   } catch (error) {
     res.status(500).json({ message: error.message });

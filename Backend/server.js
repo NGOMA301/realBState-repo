@@ -11,6 +11,8 @@ import cookieParser from "cookie-parser";
 import { authRouter } from "./routes/authRoutes.js";
 import { productRouter } from "./routes/productRoutes.js";
 import { chatRouter } from "./routes/chatRoutes.js"; // our new chat routes
+import conversationModel from "./models/conversation.model.js";
+import messageModel from "./models/message.model.js";
 
 dotenv.config();
 const app = express();
@@ -60,6 +62,19 @@ io.on("connection", (socket) => {
     socket.join(conversationId);
     console.log(`Socket ${socket.id} joined conversation ${conversationId}`);
   });
+
+
+  
+  // Handler for typing events
+  socket.on("typing", (data) => {
+    // Expected data: { conversationId, isTyping }
+    const { conversationId, isTyping } = data;
+    if (conversationId) {
+      // Broadcast typing status to all clients in the room except the sender
+      socket.to(conversationId).emit("typing", { conversationId, isTyping });
+    }
+  });
+
 
   socket.on("disconnect", () => {
     console.log("Client disconnected:", socket.id);

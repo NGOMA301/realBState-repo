@@ -150,22 +150,8 @@ export function ChatBox({ selectedUser, setLoading, socketReady }) {
         attachments: attachments.map(att => att.url),
       };
 
-      const sentMessage = await chatApi.sendMessage(messageData);
+       await chatApi.sendMessage(messageData);
 
-      // Add the sent message to the UI immediately
-      setMessages(prev => [
-        ...prev,
-        {
-          ...sentMessage,
-          sender: {
-            _id: user._id,
-            name: user.name,
-            profileImage: user.profileImage
-          },
-          isOwner: true,
-          attachments: attachments.map(att => att.url),
-        },
-      ]);
 
       setNewMessage("");
       setAttachments([]);

@@ -28,11 +28,11 @@ export function UserMenu({ lastName, isOpen, onToggle, onLogout }) {
             Wishlist
           </Link>
           <Link
-            to="/settings"
+            to="/client/deals"
             className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
           >
             <Settings className="mr-2 h-4 w-4" />
-            Settings
+            Your Deals 
           </Link>
           <button
             onClick={onLogout}

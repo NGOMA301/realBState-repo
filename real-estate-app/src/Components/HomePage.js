@@ -20,7 +20,7 @@ const HomePage = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="relative h-[500px]">
+      <div className="relative h-[600px]">
         <div className="absolute inset-0 bg-gradient-to-r from-gray-900/70 to-gray-900/50">
           <img src={housevia || "/placeholder.svg"} alt="Modern house" className="object-cover w-full h-full" />
         </div>

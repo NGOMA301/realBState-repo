@@ -104,6 +104,9 @@ export const chatApi = {
   },
 };
 
+
+
+/////////////////////////////////////////////////////////////////////////////////
 // Socket.io connection setup
 let socket = null;
 let socketListeners = new Map();
@@ -151,7 +154,7 @@ export const joinConversationRoom = (conversationId) => {
   }
 
   console.log(`Joining conversation room: ${conversationId}`);
-  socket.emit("joinRoom", conversationId);
+  socket.emit("joinConversation", conversationId);
 };
 
 export const leaveConversationRoom = (conversationId) => {
@@ -238,6 +241,48 @@ export const emitTypingEvent = (conversationId, isTyping) => {
 
   socket.emit("typing", { conversationId, isTyping });
 };
+
+export const subscribeToMessagesRead = (callback) => {
+  if (!socket) {
+    console.error("Socket not initialized when trying to subscribe to messages read events");
+    return () => {}; // Return empty cleanup function
+  }
+
+  console.log("Subscribing to messages read events");
+
+  // Remove any existing listener for this event
+  if (socketListeners.has("messages-read")) {
+    socket.off("messages-read", socketListeners.get("messages-read"));
+  }
+
+  // Add new listener
+  socket.on("messages-read", (data) => {
+    console.log("Messages read event received:", data);
+    callback(data);
+  });
+
+  // Store the callback for cleanup
+  socketListeners.set("messages-read", callback);
+
+  // Return cleanup function
+  return () => {
+    if (socket) {
+      socket.off("messages-read", callback);
+      socketListeners.delete("messages-read");
+    }
+  };
+};
+
+export const emitMarkAsRead = (conversationId) => {
+  if (!socket) {
+    console.error("Socket not initialized when trying to mark messages as read");
+    return;
+  }
+
+  console.log(`Marking messages as read for conversation: ${conversationId}`);
+  socket.emit("markAsRead", { conversationId });
+};
+
 
 export const unsubscribeFromAllEvents = () => {
   if (!socket) return;

@@ -16,6 +16,7 @@ import {
   LogOut,
   User,
   ChevronUp,
+  MessageSquare,
 } from "lucide-react";
 import { useAuthStore } from "../store/authStore";
 
@@ -51,7 +52,7 @@ const Sidebar = () => {
     { to: "/", icon: <LayoutDashboard size={20} />, label: "Dashboard" },
     { to: "/all-products", icon: <Package size={20} />, label: "All Products" },
     { to: "/new-product", icon: <FilePlus size={20} />, label: "Add Product" },
-    { to: "/messages", icon: <ShoppingCart size={20} />, label: "Messages" },
+    { to: "/messages", icon: <MessageSquare size={20} />, label: "Messages" },
     { to: "/customers", icon: <Users size={20} />, label: "Customers" },
     { to: "/analytics", icon: <BarChart3 size={20} />, label: "Analytics" },
     { to: "/reports", icon: <FileText size={20} />, label: "Reports" },

@@ -1,4 +1,3 @@
-// server.js or app.js
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
@@ -7,12 +6,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
-// Local imports
-import { authRouter } from "./routes/authRoutes.js";
-import { productRouter } from "./routes/productRoutes.js";
-import { chatRouter } from "./routes/chatRoutes.js"; // our new chat routes
-import conversationModel from "./models/conversation.model.js";
-import messageModel from "./models/message.model.js";
+
 
 dotenv.config();
 const app = express();
@@ -35,11 +29,6 @@ mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("Error connecting to MongoDB:", err));
-
-// Use routes
-app.use("/api", authRouter);
-app.use("/api/product", productRouter);
-app.use("/api/chat", chatRouter);
 
 // Create HTTP server and integrate with socket.io
 const server = http.createServer(app);
